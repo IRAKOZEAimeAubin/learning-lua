@@ -125,4 +125,52 @@ local g; g = function (x) return math.cos(x) end
 -- Calls with one string param don't need parenthesis
 print 'Hello' -- Works fine
 
+-- 4. Tables
 
+--[[ Tables = Lua's only compound data structure;
+they are associative arrays
+Similar to PHP arrays or JS objects, they are
+hash-lookup dicts that can also be used as lists
+]]
+
+-- Using tables aas dictionaries/maps
+-- Dictionary literals have string keys by default
+d = {keyOne = 'valueOne', keyTwo = false}
+
+-- String keys can use JS-like dot notation
+print(d.keyOne) -- Prints 'valueOne'
+d.newKey = {}   -- Adds a new key/value pair
+d.keyTwo = nil  -- Removes keyTwo from the table
+
+-- Literal notation for any (non-nil) value as key
+u = {['@!#'] = 'possible', [{}] = 1964, [3.14] = 'pi'}
+print(u[3.14])
+
+-- Key matching is basically by value for numbers
+-- and strings, but by identity for tables
+a = u['!@#'] -- now a = 'possible'
+b = u[{}]    -- we might expect 1964, but it's nil
+--[[ b = nil since the lookup fails. It fails
+because the key we used is not the same object
+as the one used tostore the original value. So
+strings and number are more protable keys
+]]
+
+-- A one-table-param function call needs no parenthesis
+function h(x) print(x.keyOne) end
+h{keyOne = 'Sonmi~451'} -- Prints 'Sonmi~451'
+
+for key, val in pairs(u) do -- Table iteration
+    print(key, val)
+end
+
+-- _G is a special table of all globals
+print(_G['_G'] == _G) -- Prints true
+
+-- Using tables as lists or arrays
+v = {'valueOne', 'valueToo', 2.75, 'gigachad'}
+for i = 1, #v do -- #v is the size of v for lists
+    print(i, v[i])  -- Indices start at 1
+end
+--[[ A list is not a real type. v is just a table
+with consecutive integer keys, treated as a list]]
