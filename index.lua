@@ -74,4 +74,55 @@ until someNum == 0
 
 -- 3. Functions
 
+function fib(n)
+    if n < 2 then return 1 end
+    return fib(n - 2) + fib(n - 1)
+end
+
+fib10 = fib(10)
+print(fib10)
+
+-- Closures and anonymous functions are ok
+function adder(x)
+    --[[ The returned function is created when adder
+    called, and remembers the value of x ]]
+    return function (y) return x + y end
+end
+
+a1 = adder(22)
+a2 = adder(12)
+print(a1(22))
+print(a2(4))
+
+--[[ Returns, func calls, and assignments all work
+with lists that may be mismatched in length
+unmatched receivers are nil
+unmatched senders are discarded]]
+
+x, y, z = 1, 2, 3, 4
+-- Now x = 1, y = 2, z = 3, and 4 is thrown away
+
+function bar(a, b, c)
+    print(a, b, c)
+    return 4, 8, 12, 16, 20, 24
+end
+
+x, y = bar('perceval')
+-- Now x = 4, y = 8, values 12...24 are discarded
+
+-- Functions are first-class, may be local/global
+-- These are the same
+function f(x) return x * x end
+f = function (x) return x * x end
+
+-- And so are these
+local function g(x) return math.sin(x) end
+local g; g = function (x) return math.cos(x) end
+-- the 'local g' declaration makes g-self-references ok
+
+-- Trigonometric functions work in radians, by the way
+
+-- Calls with one string param don't need parenthesis
+print 'Hello' -- Works fine
+
 
